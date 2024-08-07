@@ -704,6 +704,28 @@ public class C99GenVisitor : CSharpSyntaxWalker
         }
     }
 
+    public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
+    {
+        if (node.Right is BaseObjectCreationExpressionSyntax oces)
+        {
+            node.Left.VisitLeadingTriviaWith(this);
+            sb.Append($"{GetCName(oces)}_ctor(");
+            sb.Append(PostProcessor.trimHorizontalWhiteSpaceMarker);
+            Visit(node.Left);
+            sb.Append(PostProcessor.trimHorizontalWhiteSpaceMarker);
+            if (oces.Initializer != null)
+            {
+                sb.Append(',');
+                Visit(oces.Initializer);
+            }
+            sb.Append(')');
+            node.Right.VisitLeadingTriviaWith(this);
+            return;
+        }
+
+        this.DefaultVisit(node);
+    }
+
     private void HandleArrayVarDecl(VariableDeclarationSyntax node)
     {
         var ats = (ArrayTypeSyntax)node.Type;
@@ -781,6 +803,12 @@ public class C99GenVisitor : CSharpSyntaxWalker
     protected virtual string GetCName(EnumDeclarationSyntax node)
     {
         INamedTypeSymbol symbol = model.GetDeclaredSymbol(node).ThrowIfNull();
+        return GetCName(symbol);
+    }
+
+    protected virtual string GetCName(BaseObjectCreationExpressionSyntax node)
+    {
+        ITypeSymbol symbol = model.GetOperation(node).ThrowIfNull().Type.ThrowIfNull();
         return GetCName(symbol);
     }
 
