@@ -128,7 +128,7 @@ public class DiagramEmbeddedRenderConfigTests
             typedef enum __attribute__((packed)) {enumName}
             """);
 
-            const int expectedOptionCount = 7;
+            const int expectedOptionCount = 8;
             TestHelper.ExpectFieldCount<RenderConfigCVars>(expectedOptionCount, because: "above tests need updating");
             TestHelper.ExpectPropertyCount<IRenderConfigC>(expectedOptionCount, because: "above tests need updating");
         }
