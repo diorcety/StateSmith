@@ -204,7 +204,7 @@ public class AlgoBalanced1 : IGilAlgo
     /// <summary>
     /// Ctor is short for constructor
     /// </summary>
-    internal void OutputFuncCtor()
+    protected internal virtual void OutputFuncCtor()
     {
         file.AppendLine();
         file.AppendLine("// State machine constructor. Must be called before start or dispatch event functions. Not thread safe.");
@@ -214,7 +214,7 @@ public class AlgoBalanced1 : IGilAlgo
         file.AppendLine();
     }
 
-    internal void OutputFuncStart()
+    protected internal virtual void OutputFuncStart()
     {
         file.AppendLine("// Starts the state machine. Must be called before dispatching events. Not thread safe.");
         file.Append($"public void {mangler.SmStartFuncName}()");
@@ -234,7 +234,7 @@ public class AlgoBalanced1 : IGilAlgo
         file.AppendLine();
     }
 
-    internal void OutputExitUpToFunction()
+    protected internal virtual void OutputExitUpToFunction()
     {
         file.AppendLine("// This function is used when StateSmith doesn't know what the active leaf state is at");
         file.AppendLine("// compile time due to sub states or when multiple states need to be exited.");
@@ -255,7 +255,7 @@ public class AlgoBalanced1 : IGilAlgo
         file.AppendLine();
     }
 
-    internal void OutputFuncDispatchEvent()
+    protected internal virtual void OutputFuncDispatchEvent()
     {
         file.AppendLine("// Dispatches an event to the state machine. Not thread safe.");
         string event_id = mangler.MangleVarName("event_id");
@@ -278,7 +278,7 @@ public class AlgoBalanced1 : IGilAlgo
         file.AppendLine();
     }
 
-    internal void OutputTriggerHandlers()
+    protected internal virtual void OutputTriggerHandlers()
     {
         List<NamedVertex> namedVertices = Sm.GetNamedVerticesCopy();
 
