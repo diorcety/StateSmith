@@ -193,7 +193,17 @@ public class GilTranspilerHelper
             node.Name.VisitWith(transpilerWalker);
             return true;
         }
+        if (node.Expression is IdentifierNameSyntax identifierNameSyntax)
+        {
+            ISymbol? symbol = model.GetSymbolInfo(identifierNameSyntax).Symbol;
 
+            if (symbol is IParameterSymbol parameterSymbol && parameterSymbol.Type.IsReferenceType)
+            {
+                transpilerWalker.VisitLeadingTrivia(node.GetFirstToken());
+                node.Name.VisitWith(transpilerWalker);
+                return true;
+            }
+        }
         return false;
     }
 }
