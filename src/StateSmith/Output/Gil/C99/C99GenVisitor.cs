@@ -387,7 +387,7 @@ public class C99GenVisitor : CSharpSyntaxWalker
     // arguments are passed to methods/constructors
     public override void VisitArgumentList(ArgumentListSyntax node)
     {
-        var invocation = (InvocationExpressionSyntax)node.Parent.ThrowIfNull();
+        var invocation = node.Parent.ThrowIfNull();
         var iMethodSymbol = (IMethodSymbol)model.GetSymbolInfo(invocation).ThrowIfNull().Symbol.ThrowIfNull();
 
         if (!iMethodSymbol.IsStatic)
