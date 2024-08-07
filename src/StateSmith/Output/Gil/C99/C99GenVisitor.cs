@@ -755,36 +755,36 @@ public class C99GenVisitor : CSharpSyntaxWalker
         VisitTrailingTrivia(node.CloseBraceToken);
     }
 
-    private void AppendNodeLeadingTrivia(SyntaxNode node)
+    protected void AppendNodeLeadingTrivia(SyntaxNode node)
     {
         sb.Append($"{node.GetLeadingTrivia()}");
     }
 
-    private static string MangleTypeSymbolName(string fullyQualifiedName)
+    protected static string MangleTypeSymbolName(string fullyQualifiedName)
     {
         string textName = fullyQualifiedName.Replace(oldChar: '.', newChar: '_');
         return textName;
     }
 
-    private string GetCName(ClassDeclarationSyntax node)
+    protected virtual string GetCName(ClassDeclarationSyntax node)
     {
         INamedTypeSymbol symbol = model.GetDeclaredSymbol(node).ThrowIfNull();
         return GetCName(symbol);
     }
 
-    private string GetCName(StructDeclarationSyntax node)
+    protected virtual string GetCName(StructDeclarationSyntax node)
     {
         INamedTypeSymbol symbol = model.GetDeclaredSymbol(node).ThrowIfNull();
         return GetCName(symbol);
     }
 
-    private string GetCName(EnumDeclarationSyntax node)
+    protected virtual string GetCName(EnumDeclarationSyntax node)
     {
         INamedTypeSymbol symbol = model.GetDeclaredSymbol(node).ThrowIfNull();
         return GetCName(symbol);
     }
 
-    private string GetCName(ISymbol symbol)
+    protected virtual string GetCName(ISymbol symbol)
     {
         if (symbol is IFieldSymbol fieldSymbol)
         {
@@ -809,7 +809,7 @@ public class C99GenVisitor : CSharpSyntaxWalker
         return name;
     }
 
-    private string GetCName(SymbolInfo symbolInfo)
+    protected virtual string GetCName(SymbolInfo symbolInfo)
     {
         return GetCName(symbolInfo.Symbol.ThrowIfNull());
     }
